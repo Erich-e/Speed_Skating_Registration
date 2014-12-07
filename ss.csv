@@ -1,0 +1,26 @@
+<b>Skater Information</b>,<b>Skater 1</b>,<b>Skater 2</b>,<b>Skater 3</b>
+Last Name,$LAST1,$LAST2,$LAST3
+First Name,$FIRST1,$FIRST2,$FIRST3
+Date Of Birth,$DOB1,$DOB2,$DOB3
+Group Number,"[$GROUP1,Select Group, Group 1, Group 2, Group 3, Group 4, Group 5, Group 6, Group 7]","[$GROUP2,Select Group, Group 1, Group 2, Group 3, Group 4, Group 5, Group 6, Group 7]","[$GROUP3,Select Group, Group 1, Group 2, Group 3, Group 4, Group 5, Group 6, Group 7]"
+Mother's Name,$MOTHER,,
+Address,$ADDR,,
+Phone Number,$PHONE,,
+Email Address,$EMAIL,,
+<b>Membership Fees</b>,,,
+<b>Mastercard Center</b>,,,
+Wednesday,!MCWED1,!MCWED2,!MCWED3
+Saturday,!MCSAT1,!MCSAT2,!MCSAT3
+<b>Commander Park</b>,,,
+Thursday,!CPTHU1,!CPTHU2,!CPTHU3
+Sunday,!CPSUN,!CPSUN2,!CPSUN3
+Discount,%DISCOUNT1,%DISCOUNT2,%DISCOUNT3
+Skate Rental,Free For First Season,Free For First Season,Free For First Season
+Boots Only,!BOOTS1,!BOOTS2,!BOOTS3
+Boots & Blads,!BLADES1,!BLADES2,!BLADES3
+Ankle Guards,!ANKLE1,!ANKLE2,!ANKLE3
+Competitive Stream,!COMPETE1,!COMPETE2,!COMPETE3
+Family Discount,,%FAMILY2,%FAMILY3
+<b>Total</b>,%TOTAL1,%TOTAL2,%TOTAL3
+,,,
+,,<b>Total Fees Due</b>,%TOTAL4
