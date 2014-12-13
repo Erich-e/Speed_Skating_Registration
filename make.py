@@ -4,6 +4,8 @@ out = open('ss.html', 'w')
 
 f = csv.reader(open('ss.csv'))
 
+out.write(open('head.html').read())
+
 out.write("<table style = 'width=100%>'")
 
 for row in f:
@@ -30,3 +32,4 @@ for row in f:
 	out.write('</tr>\n')
 
 out.write("</table>")
+out.write(open('tail.html').read())
