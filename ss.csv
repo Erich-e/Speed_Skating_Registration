@@ -9,7 +9,7 @@ Phone Number,$PHONE,,
 Email Address,$EMAIL,,
 <b>Membership Fees</b>,,,
 <b>Mastercard Center</b>,,,
-Wednesday,!MCWED1,!MCWED2,!MCWED3
+,!MCWED1 Wednesday,!MCWED2 Wednesday,!MCWED3 Wednesday
 Saturday,!MCSAT1,!MCSAT2,!MCSAT3
 <b>Commander Park</b>,,,
 Thursday,!CPTHU1,!CPTHU2,!CPTHU3
