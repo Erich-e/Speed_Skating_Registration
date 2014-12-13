@@ -19,7 +19,7 @@ for row in f:
 					out.write("<option value='%d'>%s</option>\n" %(i, choices[i]))
 				out.write("</select></td>\n")
 			elif element[0] == '!':
-				out.write("<td><imput type = 'checkbox' name='%s' value='yes'/> %s <td>\n"%(element, element))
+				out.write("<td><input type = 'checkbox' name='%s' value='yes'/> %s <td>\n"%(element, element))
 			elif len(element) != 0:
 				out.write('<td> %s </td>\n' %(element))
 	out.write('</tr>\n')
