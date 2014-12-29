@@ -25,6 +25,8 @@ for row in f:
 			words = element.split()
 			if(len(words)>1):
 				name = ' '.join(words[1:])
+			else:
+				name = ''
 			out.write("<td><input type = 'checkbox' name='%s' value='yes'/>%s</td>\n"%(element, name))
 		else:
 			out.write('<td> %s </td>\n' %(element))
