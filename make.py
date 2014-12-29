@@ -1,11 +1,12 @@
 import csv
 
-out = open('ss.html', 'w')
+out = open('ss.php', 'w')
 
 f = csv.reader(open('ss.csv'))
 
 out.write(open('head.html').read())
 
+out.write("<form>")
 out.write("<table style = 'width=100%>'")
 
 for row in f:
@@ -14,7 +15,7 @@ for row in f:
 		if len(element)==0:
 			element = " "
 		if element[0] == '$':
-			out.write("<td><input type='text' name='%s' style='display:table-cell; width:100%%'/></td>\n" %(element))
+			out.write("<td><input type='text' name='%s' value='<?php showvar('%s');?>' style='display:table-cell; width:100%%'/></td>\n" %(element, element))
 		elif element[0] == '[':
 			choices = element[1:-1].split(',')
 			out.write("<td><select name=%s>" %(choices[0]))
@@ -34,4 +35,6 @@ for row in f:
 	out.write('</tr>\n')
 
 out.write("</table>")
+out.write("<input type=submit value=submit>")
+out.write('</form>')
 out.write(open('tail.html').read())
