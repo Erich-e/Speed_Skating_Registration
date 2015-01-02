@@ -13,4 +13,10 @@ function
 showvar($name) {
 	printf("%s", $_GET[$name]);
 }
+function group($name, $group)
+{
+	printf("%s %s %d\n", $_GET[$name], $name, $group);
+	if($_GET[$name] == $group)
+		printf("selected");
+}
 ?>

@@ -4,6 +4,15 @@ out = open('ss.php', 'w')
 
 f = csv.reader(open('ss.csv'))
 
+out.write('''
+<?php
+function ten()
+{
+
+}
+?>
+''')
+
 out.write(open('head.html').read())
 
 out.write("<form>")
@@ -20,7 +29,7 @@ for row in f:
 			choices = element[1:-1].split(',')
 			out.write("<td><select name=%s>" %(choices[0]))
 			for  i in range(1, len(choices)):
-				out.write("<option value='%d'>%s</option>\n" %(i, choices[i]))
+				out.write("<option value='%d' <?php group('%s', %d);  ?> >%s</option>\n" %(i, choices[0], i, choices[i]))
 			out.write("</select></td>\n")
 		elif element[0] == '!':
 			words = element.split()
@@ -28,7 +37,10 @@ for row in f:
 				name = ' '.join(words[1:])
 			else:
 				name = ''
-			out.write("<td><input type = 'checkbox' name='%s' value='yes'/>%s</td>\n"%(element, name))
+			pname = words[0]
+			out.write("<td><input type = 'checkbox' name='%s' value='checked' <?php showvar('%s');?> /> %s </td>\n"%(pname, pname, name))
+		elif element[0] == '%':
+			out.write("<td> <?php   ?> </td\n")
 		else:
 			out.write('<td> %s </td>\n' %(element))
 			
