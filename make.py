@@ -4,16 +4,28 @@ out = open('ss.php', 'w')
 
 f = csv.reader(open('ss.csv'))
 
+array = []
+for row in f:
+	print row
+	if row[0][0] == "[" or row[0][0] == "!":
+		array.append(row)
+
+out.write(open('head.html').read())
+
 out.write('''
 <?php
-function ten()
+
+
+function subtotal ($array, $skater)
 {
 
+
+}
+function computeTotal($skater)
+{
 }
 ?>
 ''')
-
-out.write(open('head.html').read())
 
 out.write("<form>")
 out.write("<table style = 'width=100%>'")
@@ -40,7 +52,11 @@ for row in f:
 			pname = words[0]
 			out.write("<td><input type = 'checkbox' name='%s' value='checked' <?php showvar('%s');?> /> %s </td>\n"%(pname, pname, name))
 		elif element[0] == '%':
-			out.write("<td> <?php   ?> </td\n")
+			skater = element[-1]
+			if element[0:6] == '%TOTAL':
+				out.write("<td> <?php computeTotal(%s); ?> </td\n" % element[-1])
+			else:
+				out.write('<td>ERROR - Unknown variable %s</td>' % element)
 		else:
 			out.write('<td> %s </td>\n' %(element))
 			
