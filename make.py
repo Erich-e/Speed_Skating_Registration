@@ -2,33 +2,43 @@ import csv
 
 out = open('ss.php', 'w')
 
-f = csv.reader(open('ss.csv'))
-
-array = []
-for row in f:
-	print row
-	if row[0][0] == "[" or row[0][0] == "!":
-		array.append(row)
 
 out.write(open('head.html').read())
 
+fp = csv.reader(open("ss-amounts.csv"))
+f = []
+for row in fp:
+	f.append(row)
+
+
 out.write('''
 <?php
-
-
-function subtotal ($array, $skater)
+function subtotal ($skater)
 {
+$group = getvar('$GROUP'.$skater);
+$total = 0;
+''')
+for day in f:
+	if len(day) > 0 and len(day[0]) > 0 and day[0][0] == '!':
+		out.write("if(getvar('%s'.$skater) == 'checked') { " %(day[0]))
+		for i in range(1, len(day)):
+			outswrite("if($group == %d) $total += %s;\n" %(i, day[i])) 
+		out.write('}\n')
 
-
+out.write('''
 }
-function computeTotal($skater)
+function computeTotal()
 {
+printf(subtotal(1)+subtotal(2)+subtotal(3));
 }
 ?>
 ''')
 
 out.write("<form>")
 out.write("<table style = 'width=100%>'")
+
+
+f = csv.reader(open('ss.csv'))
 
 for row in f:
 	out.write('<tr>')
@@ -54,7 +64,9 @@ for row in f:
 		elif element[0] == '%':
 			skater = element[-1]
 			if element[0:6] == '%TOTAL':
-				out.write("<td> <?php computeTotal(%s); ?> </td\n" % element[-1])
+				out.write("<td> <?php computeTotal(); ?> </td>\n")
+			elif element [0:7] == '%STOTAL':
+				out.write("<td> <?php subtotal(%s); ?> </td>\n" % element[-1])
 			else:
 				out.write('<td>ERROR - Unknown variable %s</td>' % element)
 		else:

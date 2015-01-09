@@ -10,13 +10,17 @@
 </div>
 <?php
 function
+getvar($name)
+{
+	return isset($_GET[$name])?$_GET[$name]:"";
+}
+function
 showvar($name) {
-	printf("%s", $_GET[$name]);
+	printf("%s", getvar($name));
 }
 function group($name, $group)
 {
-	printf("%s %s %d\n", $_GET[$name], $name, $group);
-	if($_GET[$name] == $group)
+	if(getvar($name) == $group)
 		printf("selected");
 }
 ?>
