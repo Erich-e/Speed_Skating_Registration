@@ -8,10 +8,10 @@
 !ANKLE,17,17,17,17,17,17,17
 !COMPETE,20,20,20,20,20,20,20
 ,,,,,,,
-DISCOUNT2,0,,Two nights of skating,,,,
-DISCOUNT3,10,,Three nights of skating,,,,
-DISCOUNT4,20,,Four nights of skating,,,,
+%DISCOUNT2,0,,Two nights of skating,,,,
+%DISCOUNT3,10,,Three nights of skating,,,,
+%DISCOUNT4,20,,Four nights of skating,,,,
 ,,,,,,,
-FAMILY2,5,,Two family members,,,,
-FAMILY3,15,,3 Family members,,,,
-FAMILY4,25,,4 Family members,,,,
+%FAMILY2,5,,Two family members,,,,
+%FAMILY3,15,,3 Family members,,,,
+%FAMILY4,25,,4 Family members,,,,
