@@ -15,9 +15,10 @@ out.write('''
 <?php
 $nights = array(0, 0, 0, 0);
 $discounts = array(0, 0, 0, 0, 0);
+$family = array(0, 0, 0, 0, 0);
 function subtotal ($skater)
 {
-global $nights, $discounts;
+global $nights, $discounts, $family;
 $nights[$skater-1] = 0;
 $group = getvar('$GROUP'.$skater);
 $total = 0;
@@ -32,15 +33,28 @@ for day in f:
 		out.write('}\n')
 	if len(day) > 0 and len(day[0]) > 0 and day[0][0:9] == "%DISCOUNT":
 		out.write(" $discounts[%s] = %s ; " %(day[0][-1], day[1]))
-
+	if len(day) > 0 and len(day[0]) > 0 and day[0][0:7] == "%FAMILY":
+		out.write("$family[%s] = %s ; " %(day[0][-1], day[1]))
 out.write('''
 $total = $total - $discounts[$nights[$skater - 1]];
 return $total;
 }
 
+function family()
+{
+global $family, $nights;
+$members = 0;
+foreach ($nights as $value)
+{
+	if($value != 0)
+		$members = $members + 1;
+}
+return $family[$members];
+}
+
 function computeTotal()
 {
-printf("%g", subtotal(1)+subtotal(2)+subtotal(3)+subtotal(4));
+printf("%g", subtotal(1)+subtotal(2)+subtotal(3)+subtotal(4)-family());
 }
 subtotal(1);subtotal(2);subtotal(3);subtotal(4);
 ?>
@@ -81,6 +95,8 @@ for row in f:
 				out.write("<td> <?php printf('%%g', subtotal(%s)); ?> </td>\n" % (element[-1]))
 			elif element [0:9] == '%DISCOUNT':
 				out.write("<td> <?php printf('%%d', $discounts[$nights[%s-1]]); ?>  </td>\n" % (element[-1])) 
+			elif element [0:7] == '%FAMILY':
+				out.write("<td> <?php printf('%d', family()); ?>  </td>\n") 
 			else:
 				out.write('<td>ERROR - Unknown variable %s</td>' % element)
 		else:
