@@ -15,8 +15,10 @@ out.write('''
 <?php
 $nights = array(0, 0, 0, 0);
 $discounts = array(0, 0, 0, 0, 0);
-function subtotal ($skater, $print)
+function subtotal ($skater)
 {
+global $nights, $discounts;
+$nights[$skater-1] = 0;
 $group = getvar('$GROUP'.$skater);
 $total = 0;
 ''')
@@ -24,7 +26,7 @@ for day in f:
 	if len(day) > 0 and len(day[0]) > 0 and day[0][0] == '!':
 		out.write("if(getvar('%s'.$skater) == 'checked') { " %(day[0]))
 		if day[0][1] == '!':
-			out.write("$nights[$skater-1] ++;\n") 	
+			out.write("$nights[$skater-1] = $nights[$skater-1] + 1 ;\n") 	
 		for i in range(1, len(day)):
 			out.write("if($group == %d) $total += %s; \n" %(i, day[i])) 
 		out.write('}\n')
@@ -32,15 +34,15 @@ for day in f:
 		out.write(" $discounts[%s] = %s ; " %(day[0][-1], day[1]))
 
 out.write('''
-if($print)
-	printf($total);
+$total = $total - $discounts[$nights[$skater - 1]];
 return $total;
 }
 
 function computeTotal()
 {
-printf(subtotal(1, 0)+subtotal(2, 0)+subtotal(3, 0)+subtotal(4, 0));
+printf("%g", subtotal(1)+subtotal(2)+subtotal(3)+subtotal(4));
 }
+subtotal(1);subtotal(2);subtotal(3);subtotal(4);
 ?>
 ''')
 
@@ -76,7 +78,7 @@ for row in f:
 			if element[0:6] == '%TOTAL':
 				out.write("<td> <?php computeTotal(); ?> </td>\n")
 			elif element [0:7] == '%STOTAL':
-				out.write("<td> <?php subtotal(%s, 1); ?> </td>\n" % (element[-1]))
+				out.write("<td> <?php printf('%%g', subtotal(%s)); ?> </td>\n" % (element[-1]))
 			elif element [0:9] == '%DISCOUNT':
 				out.write("<td> <?php printf('%%d', $discounts[$nights[%s-1]]); ?>  </td>\n" % (element[-1])) 
 			else:

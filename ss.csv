@@ -8,10 +8,10 @@ Address,$ADDR,,,
 Phone Number,$PHONE,,,
 Email Address,$EMAIL,,,
 <b>Membership Fees</b>,,,,
-<b>Mastercard Center</b>,!MCWED1 Wednesday,!MCWED2 Wednesday,!MCWED3 Wednesday,!MCWED4 Wednesday
-<b>Mastercard Center</b>,!MCSAT1 Saturday,!MCSAT2 Saturday,!MCSAT3 Saturday,!MCSAT4 Saturday
-<b>Commander Park</b>,!CPTHU1 Thursday,!CPTHU2 Thursday,!CPTHU3 Thursday,!CPTHU4 Thursday
-<b>Commander Park</b>,!CPSUN1 Sunday,!CPSUN2 Sunday,!CPSUN3 Sunday,!CPSUN4 Sunday
+<b>Mastercard Center</b>,!!MCWED1 Wednesday,!!MCWED2 Wednesday,!!MCWED3 Wednesday,!!MCWED4 Wednesday
+<b>Mastercard Center</b>,!!MCSAT1 Saturday,!!MCSAT2 Saturday,!!MCSAT3 Saturday,!!MCSAT4 Saturday
+<b>Commander Park</b>,!!CPTHU1 Thursday,!!CPTHU2 Thursday,!!CPTHU3 Thursday,!!CPTHU4 Thursday
+<b>Commander Park</b>,!!CPSUN1 Sunday,!!CPSUN2 Sunday,!!CPSUN3 Sunday,!!CPSUN4 Sunday
 Discount,%DISCOUNT1,%DISCOUNT2,%DISCOUNT3,%DISCOUNT4
 <b>Skate Rental</b>,,,,
 Boots Only,!BOOTS1,!BOOTS2,!BOOTS3,!BOOTS4
