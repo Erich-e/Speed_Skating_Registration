@@ -1,13 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>TSSC Registration Form</title>
-</head>
-<body>
-<div align="center">
-	<h1>Toronto Speed Skating Club<h1>
-	<h3>Registration Form after LTSS</h3>
-</div>
 <?php
 function
 getvar($name)
@@ -16,7 +8,7 @@ getvar($name)
 }
 function
 showvar($name) {
-	printf("%s", getvar($name));
+	printf("%s", htmlspecialchars(getvar($name), ENT_QUOTES));
 }
 function group($name, $group)
 {
@@ -24,3 +16,16 @@ function group($name, $group)
 		printf("selected");
 }
 ?>
+<head>
+	<title>TSSC Registration Form</title>
+	<script>
+		(function() {
+			<?php if (getvar("?Print")=='print') printf("%s", 'window.print();'); ?>
+		})();
+	</script>
+</head>
+<body>
+<div align="center">
+	<h1>Toronto Speed Skating Club<h1>
+	<h3>Registration Form 2015-2016</h3>
+</div>
