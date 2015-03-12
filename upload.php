@@ -1,8 +1,36 @@
 <html>
 <head>
 	<title> Registration Form Update</title>
- </head>
+</head>
 <body>
+
+<?php
+function
+getvar($name)
+{
+	return isset($_POST[$name])?$_POST[$name]:"";
+}
+function
+getfile($name)
+{
+	return $_FILE[$name]["name"];
+}
+function
+showvar($name)
+{
+	printf("%s", htmlspecialchars(getvar($name), ENT_QUOTES));
+}
+if(getvar("submit") == "submit")
+{
+	if(getvar("password") == "letmein")
+	{
+		
+		
+
+	}	
+}
+?>
+
 <div align="center">
 	<h1>Toronto Speed Skating Club<h1>
 
@@ -16,9 +44,9 @@
 	<form action = "upload.php" method = "post">
 	<tr><td>Format: </td><td> <input type = "file" name = "Format"></td></tr>
 	<tr><td>Amounts: </td><td> <input type = "file" name = "Amounts"></td></tr>
-	<tr><td>Price: </td><td> <input type = "file" name = "Price"></td></tr>
-	<tr><td>Tail: </td><td> <input type = "file" name = "Tail"></td></tr>
+	<tr><td>Print: </td><td> <input type = "file" name = "Print"></td></tr>
 	<tr><td>Password: </td><td> <input type = "password" name = "password"></td></tr>
+	<tr><td> <input type = "submit" value =  "submit" name = "submit"></td></tr>
 	
 	<form>
 	</td></tr></table>
