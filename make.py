@@ -1,6 +1,6 @@
 import csv, sys, wiki, time, os
 
-def makePHP(filename='ss.php', amountfile = 'ss-amounts.csv', formfile = 'ss.csv', printfile = 'print.txt'):
+def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv', printfile = 'print.txt'):
 	out = open(filename, 'w')
 
 	out.write(open('head.html').read())
