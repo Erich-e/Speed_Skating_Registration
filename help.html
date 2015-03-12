@@ -1,0 +1,124 @@
+<html>
+<head>
+	<title> Help: Skating Registration Form </title>
+</head>
+<body>
+<h1 align="center">Help For Modifying The Registration Data</h1>
+
+It takes three files to create a registration form:
+<ul>
+	<li> The form template file (.csv)</li>
+	<li> The amounts file (.csv)</li>
+	<li> Instructions for Printing (.txt)</li>
+</ul>
+
+You also need a password to upload data to the server.
+
+<h2> Form Template File </h2>
+This template file can be created and edited using any spread-sheet software (MS Excel, Open Office, Google Spreadsheets, etc.).  But you need to save the file as a .csv (Comma Separated Values) file before you upload.</p>
+
+These variables are used when generating the form for printing</p>
+
+For variables relating to skaters, each name should have a suffice of 1 to 4 (i.e. <tt>!BOOTS1</tt>), representing each skater in the form.<p/> 
+
+The fields in the spreadsheet can be linked to refer to a value in the <tt>amounts.csv</tt> file.  These fields are denoted by special characters in their text:<ul>
+	<li> If the field begins with a dollar sign ('$'), this represents a text field.  For example a name, date of birth etc.  Examples might be:<ul>
+		<li> <tt>$LAST1</tt> </li>
+		<li> <tt>$FIRST3</tt> </li>
+		<li> <tt>$STREET</tt> </li>
+		<li> <tt>$EMAIL</tt> </li>
+	</ul><li>
+	<li> If the field begins with a single exclamation mark ('!'), this represents a "toggle" button in the form.  Each toggle is linked to an amount in the <tt>amounts.csv</tt> spreadsheet and will be added into subtotals for each skater.  Any text following a space will be printed beside the button.  For example:<ul>
+		<li> <tt>!BOOTS1</tt> </li>
+		<li> <tt>!BOOTS1 Boot Rental</tt> <i> A toggle button with the words "Boot Rental" beside it</i></li>
+		<li> <tt>!COMPETITION_STREAM </tt></li>
+	</ul></li>
+	<li> If the field begins with <b>two</b> exclamation marks ('!!'), this is a toggle which represents a night of skating, so is applied to the multi-night discounts (if enabled).  Examples of this might be: <ul>
+		<li> <tt>!!MONDAY1 Monday </tt> <i> Includes a label beside the toggle saying "Monday"</i></li>
+		<li> <tt>!!SUNDAY3 Sunday Skating </tt> </li>
+	</ul></li>
+	<li>
+		To specify a menu of items, you need to enclose the list of items in square brackets ('[' and ']').  The first item in the list represents the variable for the data.  Examples of this might be:<ul>
+			<li> <tt>[$GROUP_SKATER_1,Select Group, Group 1, Group 2, Group 3]</tt> - A menu with "Select Group", "Group 1", "Group 2" and "Group 3"</li>
+			<li> <tt>[$LEVEL1, Select Level, Cradle, Novice, Competitive, Adult]</tt></li>
+	</ul></li>
+	<li>
+		If a field starts with any other character, it will be printed as a label.  You can use the simple markup language (see <tt>print.txt</tt> for details) to specify styles.
+	</li>
+</ul>
+In addition, there are some special fields which are computed by the registration application.  These fields do not have to appear in the form.  These fields are: <ul>
+	<li> <tt>%FAMILY2</tt> - The discount amount for 2 skaters from the same family. </li>
+	<li> <tt>%FAMILY3</tt> - The discount amount for 3 skaters from the same family. </li>
+	<li> <tt>%FAMILY4</tt> - The discount amount for 4 skaters from the same family. </li>
+	<li> <tt>%DISCOUNT1</tt> - The multi-night discount for skater 1</li>
+	<li> <tt>%DISCOUNT2</tt> - The multi-night discount for skater 2</li>
+	<li> <tt>%DISCOUNT3</tt> - The multi-night discount for skater 3</li>
+	<li> <tt>%DISCOUNT4</tt> - The multi-night discount for skater 4</li>
+	<li> <tt>%STOTAL1</tt> - The subtotal amount for the first skater in the form. </li>
+	<li> <tt>%STOTAL2</tt> - The subtotal amount for the second skater in the form. </li>
+	<li> <tt>%STOTAL3</tt> - The subtotal amount for the third skater in the form. </li>
+	<li> <tt>%STOTAL4</tt> - The subtotal amount for the fourth skater in the form. </li>
+	<li> <tt>%TOTAL</tt> - The total for all skaters </li>
+</ul>
+
+<h2> Amounts Spreadsheet </h2>
+
+The amounts spreadsheet is used to specify for all the toggle variables in the template form.</p>
+The first row of the amounts spreadsheet <b>must</b> be an empty field, followed by the list of skating groups.  This list <b>must</b> match the menu of skating groups specified in the form template.</p>
+Each subsequent row should have the variable name, but without the number suffix (i.e. <tt>!BOOTS</tt> or <tt>!!WEDNESDAY</tt>) followed by the amount for each group.  If the amount is the same for each group, it should just be duplicated.</p>
+
+For example, the spreadsheet might look like:<pre>
+	,Cradle,Novice,Competitive,Adult
+	!BOOTS,100,150,200,150
+	!ANKLE,15,15,15,15
+	!MONDAY,300,300,300,300
+</pre>
+In this case, renting boots for a novice would cost $150.00.
+
+<h2> Print File </h2>
+
+When the user hits the <b>Print</b> button, text is added to the form before it's printed.</p>
+
+The file uploaded should be a vanilla .txt file with no formatting.  Each paragraph should be separated by a blank line (otherwise they will run together). However, there are some special mark-up features which let you add style to the printed text:
+<div align="center">
+	<table border="1" width="80%">
+	<tr>
+		<th>Description</th>
+		<th>Example</th>
+		<th>Appears As</th>
+		<th>Details</th>
+	</tr>
+	<tr>
+		<td> Header </td>
+		<td> <pre> = Waiver </pre> </td>
+		<td><h2>Waiver</h2></td>
+		<td> If a line begins with an equal sign, the text will be displayed as a heading title:
+	</tr>
+	<tr>
+		<td> Bold/Italic Text </td>
+		<td> <pre> Normal, [b]Bold[/b], [i]Italic[/i] </pre> </td>
+		<td>Normal, <b>Bold</b>, <i>Italic</i> </td>
+		<td> </td>
+	</tr>
+	<tr>
+		<td> List of items</td>
+		<td> <pre>
+ - Item 1
+ - Item 2
+ - Item 3
+		 </pre> </td>
+		<td> <ul>
+			<li> Item 1</li>
+			<li> Item 2</li>
+			<li> Item 3</li>
+		 </ul> </td>
+		<td> </td>
+	</tr>
+	<tr>
+		<td> Line Separator </td>
+		<td> <pre> ---- </pre> </td>
+		<td> <hr/> </td>
+		<td> Four hyphens on a line by themselves represents a line separator. </td>
+	</tr>
+	</table>
+</body>

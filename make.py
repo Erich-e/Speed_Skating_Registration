@@ -1,5 +1,7 @@
 import csv, sys, wiki, time, os
 
+def safeout(out, text):
+	out.write(wiki.sanatize(text))
 def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv', printfile = 'print.txt'):
 	out = open(filename, 'w')
 
@@ -24,16 +26,16 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 	''')
 	for day in f:
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0] == '!':
-			out.write("if(getvar('%s'.$skater) == 'checked') { " %(day[0]))
+			safeout("if(getvar('%s'.$skater) == 'checked') { " %(day[0]))
 			if day[0][1] == '!':
-				out.write("$nights[$skater-1] = $nights[$skater-1] + 1 ;\n") 	
+				safeout("$nights[$skater-1] = $nights[$skater-1] + 1 ;\n") 	
 			for i in range(1, len(day)):
-				out.write("if($group == %d) $total += %s; \n" %(i, day[i])) 
-			out.write('}\n')
+				safeout("if($group == %d) $total += %s; \n" %(i, day[i])) 
+			safeout('}\n')
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0:9] == "%DISCOUNT":
-			out.write(" $discounts[%s] = %s ; " %(day[0][-1], day[1]))
+			safeout(" $discounts[%s] = %s ; " %(day[0][-1], day[1]))
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0:7] == "%FAMILY":
-			out.write("$family[%s] = %s ; " %(day[0][-1], day[1]))
+			safeout("$family[%s] = %s ; " %(day[0][-1], day[1]))
 	out.write('''
 	$total = $total - $discounts[$nights[$skater - 1]];
 	return $total;
@@ -68,6 +70,7 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 	for row in f:
 		out.write('<tr>')
 		for element in row:
+			element = wiki.sanitize(element)
 			if len(element)==0:
 				element = " "
 			if element[0] == '$':

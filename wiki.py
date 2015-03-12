@@ -4,8 +4,9 @@ import sys, os
 
 _BIG = 9999
 
-def process(file):
-	text = open(file, 'r').read()
+def sanitize(text):
+	text = text.replace('<b>', '[b]', _BIG)
+	text = text.replace('</b>', '[/b]', _BIG)
 	text = text.replace('&', '&amp;', _BIG)
 	text = text.replace('<', '&lt;', _BIG)
 	text = text.replace('>', '&gt;', _BIG)
@@ -14,6 +15,11 @@ def process(file):
 	text = text.replace('[i]', '<i>', _BIG)
 	text = text.replace('[/i]', '</i>', _BIG)
 	text = text.replace("'", '&quot;', _BIG)
+	return text
+
+def process(file):
+	text = open(file, 'r').read()
+	text = sanitize(text)
 	lines = text.splitlines()
 	i = 0
 	while i < len(lines):
