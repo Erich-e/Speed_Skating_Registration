@@ -3,6 +3,7 @@ import csv, sys, wiki, time, os
 def safeout(out, text):
 	#out.write(wiki.sanitize(text))
 	out.write(text)
+
 def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv', printfile = 'print.txt'):
 	out = open(filename, 'w')
 
@@ -18,6 +19,11 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 	$nights = array(0, 0, 0, 0);
 	$discounts = array(0, 0, 0, 0, 0);
 	$family = array(0, 0, 0, 0, 0);
+	''')
+	for day in f:
+		if len(day) > 0 and len(day[0]) > 0	and day[0][0] == '!':
+			safeout(out, "$%s = array();\n" % (day[0][2:]))
+	out.write('''
 	function subtotal ($skater)
 	{
 	global $nights, $discounts, $family;
@@ -26,33 +32,36 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 	$total = 0;
 	''')
 	for day in f:
+		if len(day) > 0 and len(day[0]) > 0	and day[0][0] == '!':
+			safeout(out, "global $%s; \n " % (day[0][2:]))
+	for day in f:
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0] == '!':
 			safeout(out, "if(getvar('%s'.$skater) == 'checked') { " %(day[0]))
 			if day[0][1] == '!':
 				safeout(out, "$nights[$skater-1] = $nights[$skater-1] + 1 ;\n") 	
 			for i in range(1, len(day)):
-				safeout(out, '''if($group == %d){ $total += %s; eval("\$%s$skater= %s;");}\n''' %(i, day[i], day[0][2:], day[i])) 
+				safeout(out, '''if($group == %d){ $total += %s; $%s[$skater]= %s; }\n''' %(i, day[i], day[0][2:], day[i])) 
 			safeout(out, '}\n')
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0:9] == "%DISCOUNT":
 			safeout(out, " $discounts[%s] = %s ; " %(day[0][-1], day[1]))
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0:7] == "%FAMILY":
 			safeout(out, "$family[%s] = %s ; " %(day[0][-1], day[1]))
 	out.write('''
-	$total = $total - $discounts[$nights[$skater - 1]];
+	$total = $total - $discounts[$nights[$skater - 1]] - family($skater);
 	return $total;
 	}
 
 	function family($skater)
 	{
 	global $family, $nights;
-	if($nights[$skater] != 0)
-		return $family[$members];
-	return 100;
+	if($nights[$skater-1] != 0)
+		return $family[$skater];
+	return 0;
 	}
 
 	function computeTotal()
 	{
-	printf("%g", subtotal(1)+subtotal(2)+subtotal(3)+subtotal(4)-family());
+	printf("%g", subtotal(1)+subtotal(2)+subtotal(3)+subtotal(4));
 	}
 	subtotal(1);subtotal(2);subtotal(3);subtotal(4);
 	?>
@@ -89,7 +98,7 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 				else:
 					name = ''
 				pname = words[0]
-				out.write("<td><input type = 'checkbox' name='%s' value='checked' <?php showvar('%s');?> /> %s ($<?php printf('$%s'); ?>) </td>\n"%(pname, pname, name, pname[2:]))
+				out.write("<td><input type = 'checkbox' name='%s' value='checked' <?php showvar('%s');?> /> %s ($<?php printf($%s[%s]); ?>) </td>\n"%(pname, pname, name, pname[2:-1], pname[-1]))
 			elif element[0] == '%':
 				skater = element[-1]
 				if element[0:6] == '%TOTAL':

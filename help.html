@@ -7,13 +7,14 @@
 
 It takes three files to create a registration form:
 <ul>
-	<li> The form template file (.csv)</li>
-	<li> The amounts file (.csv)</li>
-	<li> Instructions for Printing (.txt)</li>
+	<li> <a href="#form">The form template file</a> (.csv)</li>
+	<li> <a href="#amounts">The amounts file</a> (.csv)</li>
+	<li> <a href="#print">Instructions for Printing</a> (.txt)</li>
 </ul>
 
 You also need a password to upload data to the server.
 
+<a name="form">
 <h2> Form Template File </h2>
 This template file can be created and edited using any spread-sheet software (MS Excel, Open Office, Google Spreadsheets, etc.).  But you need to save the file as a .csv (Comma Separated Values) file before you upload.</p>
 
@@ -61,6 +62,7 @@ In addition, there are some special fields which are computed by the registratio
 	<li> <tt>%TOTAL</tt> - The total for all skaters </li>
 </ul>
 
+<a name="amounts">
 <h2> Amounts Spreadsheet </h2>
 
 The amounts spreadsheet is used to specify for all the toggle variables in the template form.</p>
@@ -75,39 +77,53 @@ For example, the spreadsheet might look like:<pre>
 </pre>
 In this case, renting boots for a novice would cost $150.00.
 
-<h2> Print File </h2>
+<a name="print">
+<h2> Instructions For Print File </h2>
 
-When the user hits the <b>Print</b> button, text is added to the form before it's printed.</p>
+When the user hits the <b>Print</b> button, the printing instructions text is added to the form before it's printed.</p>
 
 The file uploaded should be a vanilla .txt file with no formatting.  Each paragraph should be separated by a blank line (otherwise they will run together). However, there are some special mark-up features which let you add style to the printed text:
 <div align="center">
 	<table border="1" width="80%">
 	<tr>
-		<th>Description</th>
-		<th>Example</th>
-		<th>Appears As</th>
-		<th>Details</th>
+		<th width="20%">Description</th>
+		<th width="25%">Example</th>
+		<th width="25%">Appears As</th>
+		<th width="30%">Details</th>
 	</tr>
 	<tr>
 		<td> Header </td>
 		<td> <pre> = Waiver </pre> </td>
-		<td><h2>Waiver</h2></td>
-		<td> If a line begins with an equal sign, the text will be displayed as a heading title:
+		<td><br/><h2>Waiver</h2></td>
+		<td> If a line begins with an equal sign, the text will be displayed as a heading title.
 	</tr>
 	<tr>
-		<td> Bold/Italic Text </td>
-		<td> <pre> Normal, [b]Bold[/b], [i]Italic[/i] </pre> </td>
-		<td>Normal, <b>Bold</b>, <i>Italic</i> </td>
+		<td> Normal Text </td>
+		<td> <pre> Normal </pre> </td>
+		<td>&nbsp;Normal </td>
+		<td> </td>
+	</tr>
+	<tr>
+		<td> Bold Text </td>
+		<td> <pre> [b]Bold[/b] </pre> </td>
+		<td>&nbsp;<b>Bold</b> </td>
+		<td> </td>
+	</tr>
+	<tr>
+		<td> Italic Text </td>
+		<td> <pre> [i]Italic[/i] </pre> </td>
+		<td>&nbsp;<i>Italic</i> </td>
 		<td> </td>
 	</tr>
 	<tr>
 		<td> List of items</td>
 		<td> <pre>
+ List:
  - Item 1
  - Item 2
  - Item 3
 		 </pre> </td>
-		<td> <ul>
+		<td> <br/>List:<ul>
 			<li> Item 1</li>
 			<li> Item 2</li>
 			<li> Item 3</li>
@@ -117,8 +133,70 @@ The file uploaded should be a vanilla .txt file with no formatting.  Each paragr
 	<tr>
 		<td> Line Separator </td>
 		<td> <pre> ---- </pre> </td>
-		<td> <hr/> </td>
+		<td> <hr width="80%"/> </td>
 		<td> Four hyphens on a line by themselves represents a line separator. </td>
 	</tr>
 	</table>
+</div>
+
+<h3>Tables In The Print File</h3>
+Tables in the print file are started with a line containing the sequence <tt>{|</tt> and ended with a line containing <tt>|}</tt>.  Rows of the table are separated by lines containing the sequence <tt>|-</tt>.<p/>
+Each single line represents the value of the column for the current row<p/>
+Optionally, it's possible to specify the widths of each column (as a percentage), by having a special line starting with <tt>|%</tt> and followed by the widths of each column (as a percentage).<p/>
+For example:
+<div align="center"><table border="1" width="80%"><tr>
+<th><b>Example Text</b></th>
+<th><b>Result</b></th>
+</tr><tr>
+<td>
+<pre>
+
+  {|
+  |% 10 30 60
+  [b]Number[/b]
+  [b]Print Name[/b]
+  [b]Signature[/b]
+  |-
+  1
+  |-
+  2
+  |-
+  3
+  |-
+  Col 1
+  Col 2
+  Col 3
+  |}
+
+</pre></td><td>
+Results in a table that looks similar to this:<br/><br/>
+<table align="center" border="1" width="95%">
+<tr>
+	<td width="10%"><b>Number</b></td>
+	<td width="30%"><b>Print Name</b></td>
+	<td width="60%"><b>Signature</b></td>
+</tr>
+<tr>
+	<td width="10%">1</td>
+	<td width="30%"></td>
+	<td width="60%"></td>
+</tr>
+<tr>
+	<td width="10%">2</td>
+	<td width="30%"></td>
+	<td width="60%"></td>
+</tr>
+<tr>
+	<td width="10%">3</td>
+	<td width="30%"></td>
+	<td width="60%"></td>
+</tr>
+<tr>
+	<td width="10%">Col 1</td>
+	<td width="30%">Col 2</td>
+	<td width="60%">Col 3</td>
+</tr>
+</table>
+</td></tr></table></div>
+
 </body>

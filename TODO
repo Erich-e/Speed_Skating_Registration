@@ -1,0 +1,11 @@
++ address spans multiple columns
+- Fix sanitizing
+- Off by one error in group menu
++ Show amounts for every item (i.e. Wednesday ($400))
++ Family Discount (show as a minus)
++ Make tables in wiki markup
+- Make form look exactly like the paper copy
+	- Associate member fee
+	+ Pre-registration deposit
+	+ Remove competitive stream
+	+ Add helmet cover
