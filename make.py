@@ -1,12 +1,13 @@
 import csv, sys, wiki, time, os
 
 def safeout(out, text):
-	out.write(wiki.sanatize(text))
+	#out.write(wiki.sanitize(text))
+	out.write(text)
 def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv', printfile = 'print.txt'):
 	out = open(filename, 'w')
 
 	out.write(open('head.html').read())
-
+	colspan = 1
 	fp = csv.reader(open(amountfile))
 	f = []
 	for row in fp:
@@ -26,31 +27,27 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 	''')
 	for day in f:
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0] == '!':
-			safeout("if(getvar('%s'.$skater) == 'checked') { " %(day[0]))
+			safeout(out, "if(getvar('%s'.$skater) == 'checked') { " %(day[0]))
 			if day[0][1] == '!':
-				safeout("$nights[$skater-1] = $nights[$skater-1] + 1 ;\n") 	
+				safeout(out, "$nights[$skater-1] = $nights[$skater-1] + 1 ;\n") 	
 			for i in range(1, len(day)):
-				safeout("if($group == %d) $total += %s; \n" %(i, day[i])) 
-			safeout('}\n')
+				safeout(out, '''if($group == %d){ $total += %s; eval("\$%s$skater= %s;");}\n''' %(i, day[i], day[0][2:], day[i])) 
+			safeout(out, '}\n')
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0:9] == "%DISCOUNT":
-			safeout(" $discounts[%s] = %s ; " %(day[0][-1], day[1]))
+			safeout(out, " $discounts[%s] = %s ; " %(day[0][-1], day[1]))
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0:7] == "%FAMILY":
-			safeout("$family[%s] = %s ; " %(day[0][-1], day[1]))
+			safeout(out, "$family[%s] = %s ; " %(day[0][-1], day[1]))
 	out.write('''
 	$total = $total - $discounts[$nights[$skater - 1]];
 	return $total;
 	}
 
-	function family()
+	function family($skater)
 	{
 	global $family, $nights;
-	$members = 0;
-	foreach ($nights as $value)
-	{
-		if($value != 0)
-			$members = $members + 1;
-	}
-	return $family[$members];
+	if($nights[$skater] != 0)
+		return $family[$members];
+	return 100;
 	}
 
 	function computeTotal()
@@ -72,9 +69,13 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 		for element in row:
 			element = wiki.sanitize(element)
 			if len(element)==0:
-				element = " "
+				element = ' '
 			if element[0] == '$':
-				out.write('''<td><input type='text' name='%s' value="<?php showvar('%s');?>" style='display:table-cell; width:100%%'/></td>\n''' %(element, element))
+				if not row[2]:
+					colspan = 4 
+				else:
+					colspan = 1
+				out.write('''<td colspan = "%d"><input type='text' name='%s' value="<?php showvar('%s');?>" style="width:100%%" /></td>\n''' %(colspan, element, element))
 			elif element[0] == '[':
 				choices = element[1:-1].split(',')
 				out.write("<td><select name=%s>" %(choices[0]))
@@ -88,7 +89,7 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 				else:
 					name = ''
 				pname = words[0]
-				out.write("<td><input type = 'checkbox' name='%s' value='checked' <?php showvar('%s');?> /> %s </td>\n"%(pname, pname, name))
+				out.write("<td><input type = 'checkbox' name='%s' value='checked' <?php showvar('%s');?> /> %s ($<?php printf('$%s'); ?>) </td>\n"%(pname, pname, name, pname[2:]))
 			elif element[0] == '%':
 				skater = element[-1]
 				if element[0:6] == '%TOTAL':
@@ -96,9 +97,9 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 				elif element [0:7] == '%STOTAL':
 					out.write("<td> <?php printf('%%g', subtotal(%s)); ?> </td>\n" % (element[-1]))
 				elif element [0:9] == '%DISCOUNT':
-					out.write("<td> <?php printf('%%d', $discounts[$nights[%s-1]]); ?>  </td>\n" % (element[-1])) 
+					out.write("<td> -<?php printf('%%d', $discounts[$nights[%s-1]]); ?>  </td>\n" % (element[-1])) 
 				elif element [0:7] == '%FAMILY':
-					out.write("<td> <?php printf('%d', family()); ?>  </td>\n") 
+					out.write("<td> -<?php printf('%%d', family(%s)); ?>  </td>\n" % element[-1]) 
 				else:
 					out.write('<td>ERROR - Unknown variable %s</td>' % element)
 			else:

@@ -1,13 +1,18 @@
 ----
-=Instructions
-
-A deposit of $250 per skater is kindly requested to secure your place in the
-program. Please return your form and cheque (post-dated August 1) by March 22,
-to Desmond, Jennifer or Josée.
-
-----
 =Waiver
 I hereby, for myself, my heirs, executors, administrators and assigns, waive and release any and all rights and claims for damages I may have against Speed Skating Canada, the Ontario Speed Skating Association, the Toronto Speed Skating Club, the City of Toronto, their agents, directors, officers or members, for any and all injuries suffered by me during the Winter Program Winter 2014-15. I hereby give the Toronto Speed Skating Clubs permission to post pictures, videos and event results of my child / myself on the club's website, to the clubs’ arenas, in the local newspapers and on photo and video sharing websites.
+
+{|
+|% 40 60
+[b]Print Name[/b] [i](Parent or Guardian if under 18)[/i]
+
+|-
+[b]Authorizing Signature[/b]
+
+|-
+[b]Date[/b]
+
+|}
 
 =Athlete & Parent Code of Conduct
 Participation on the ice at the Toronto Speed Skating Club (“TSSC”) is a privilege, not a right, which should elicit great pride in skaters and their families. Our standards of behavior are exceedingly high and a willingness to live up to them is a condition of being a member of TSSC.
@@ -38,3 +43,29 @@ Failure to do so may result in immediate dismissal from the program. Disrespect 
 Programming offered by TSSC is not a custodial setting therefore, children (under 18) may not be left unattended at the arena unless in the care of a guardian.
 
 [b]YOUR SIGNATURE INDICATES THAT YOU HAVE READ, UNDERSTAND AND AGREE TO ABIDE BY THE CODE OF CONDUCT HEREBY WRITTEN FOR THE TORONTO SPEED SKATING CLUB.[/b]
+
+{|
+|% 5 35 35 25
+
+[b]Print Name Of Skater[/b]
+[b]Signature[/b]
+[b]Date[/b]
+|-
+1
+|-
+2
+|-
+3
+|-
+4
+|-
+
+[b]Print Name Of Parent[/b]
+[b]Signature[/b]
+[b]Date[/b]
+|-
+1
+|-
+2
+|}
+

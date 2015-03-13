@@ -30,7 +30,7 @@ if(getvar("submit") == "submit")
 {
 	if(getvar("password") == "letmein")
 	{
-		if(ftype("Format") == "csv" &&  ftype("Amounts") == "csv" && ftype("Print") == "txt")
+		if(/*ftype("Format") == ".csv" &&  ftype("Amounts") == ".csv" && ftype("Print") == ".txt"*/true)
 		{
 			$cmd = sprintf("python make.py test %s %s %s ", getfile("Format"), getfile("Amounts"), getfile("Print"));
 			system($cmd);
