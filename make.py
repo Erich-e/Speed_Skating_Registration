@@ -40,7 +40,7 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 			if day[0][1] == '!':
 				safeout(out, "$nights[$skater-1] = $nights[$skater-1] + 1 ;\n") 	
 			for i in range(1, len(day)):
-				safeout(out, '''if($group == %d){ $total += %s; $%s[$skater]= %s; }\n''' %(i, day[i], day[0][2:], day[i])) 
+				safeout(out, '''if($group-1 == %d){ $total += %s; $%s[$skater]= %s; }\n''' %(i, day[i], day[0][2:], day[i])) 
 			safeout(out, '}\n')
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0:9] == "%DISCOUNT":
 			safeout(out, " $discounts[%s] = %s ; " %(day[0][-1], day[1]))
