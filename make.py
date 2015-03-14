@@ -2,7 +2,6 @@ import csv, sys, wiki, time, os
 
 def safeout(out, text):
 	out.write(wiki.sanitize(text))
-#	out.write(text)
 
 def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv', printfile = 'print.txt'):
 	out = open(filename, 'w')
@@ -22,7 +21,7 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 	''')
 	for day in f:
 		if len(day) > 0 and len(day[0]) > 0	and day[0][0] == '!':
-			safeout(out, "$%s = array();\n" % (day[0][2:]))
+			safeout(out, "$%s = array(0,0,0,0,0);\n" % (day[0][2:]))
 	out.write('''
 	function subtotal ($skater)
 	{
@@ -36,7 +35,10 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 			safeout(out, "global $%s; \n " % (day[0][2:]))
 	for day in f:
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0] == '!':
-			safeout(out, '''if(getvar("%s".$skater) == "checked") { ''' %(day[0]))
+			if day[0][1] == '_':
+				safeout(out, '''if($nights[$skater-1] != 0) { ''')
+			else:
+				safeout(out, '''if(getvar("%s".$skater) == "checked") { ''' %(day[0]))
 			if day[0][1] == '!':
 				safeout(out, "$nights[$skater-1] = $nights[$skater-1] + 1 ;\n") 	
 			for i in range(1, len(day)):
@@ -98,7 +100,14 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 				else:
 					name = ''
 				pname = words[0]
-				out.write("<td><input type = 'checkbox' name='%s' value='checked' <?php showvar('%s');?> /> %s ($<?php printf($%s[%s]); ?>) </td>\n"%(pname, pname, name, pname[2:-1], pname[-1]))
+				out.write("<td><input type = 'checkbox' name='%s' value='checked'" % (pname))
+				if element[1] == '_':
+					checked = "if($nights[%s-1] != 0) printf('checked');" % (pname[-1])
+					out.write(" disabled <?php %s ?> />"%(checked))
+				else:
+					checked = "showvar('%s');" % (pname)
+					out.write(" <?php %s ?> />" % (checked))
+				out.write(" %s ($<?php printf($%s[%s]); ?>) </td>\n" % (name, pname[2:-1], pname[-1]))
 			elif element[0] == '%':
 				skater = element[-1]
 				if element[0:6] == '%TOTAL':

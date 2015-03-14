@@ -7,7 +7,7 @@ Parent's Name,$MOTHER,,,
 Address,$ADDR,,,
 Phone Number,$PHONE,,,
 Email Address,$EMAIL,,,
-<b>MEMBERSHIP FEES</b>,,,,
+<b>MEMBERSHIP FEES</b>,!_MEM1,!_MEM2,!_MEM3,!_MEM4
 <b>Mastercard Center</b>,!!MCWED1 Wednesday,!!MCWED2 Wednesday,!!MCWED3 Wednesday,!!MCWED4 Wednesday
 <b>Mastercard Center</b>,!!MCSAT1 Saturday,!!MCSAT2 Saturday,!!MCSAT3 Saturday,!!MCSAT4 Saturday
 <b>Commander Park</b>,!!CPTHU1 Thursday,!!CPTHU2 Thursday,!!CPTHU3 Thursday,!!CPTHU4 Thursday
@@ -19,6 +19,7 @@ Boots & Blades,!BLADES1,!BLADES2,!BLADES3,!BLADES4
 Ankle Guards,!ANKLE1,!ANKLE2,!ANKLE3,!ANKLE4
 Competitive Stream,!COMPETE1,!COMPETE2,!COMPETE3,!COMPETE4
 Family Discount,,%FAMILY2,%FAMILY3,%FAMILY4
+OSSA Associate Member,!OSSA1,,,
 <b>Total</b>,%STOTAL1,%STOTAL2,%STOTAL3,%STOTAL4
 ,,,,
 ,,<b>Total Fees Due</b>,%TOTAL,
