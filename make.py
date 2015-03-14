@@ -1,8 +1,8 @@
 import csv, sys, wiki, time, os
 
 def safeout(out, text):
-	#out.write(wiki.sanitize(text))
-	out.write(text)
+	out.write(wiki.sanitize(text))
+#	out.write(text)
 
 def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv', printfile = 'print.txt'):
 	out = open(filename, 'w')
@@ -36,7 +36,7 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 			safeout(out, "global $%s; \n " % (day[0][2:]))
 	for day in f:
 		if len(day) > 0 and len(day[0]) > 0 and day[0][0] == '!':
-			safeout(out, "if(getvar('%s'.$skater) == 'checked') { " %(day[0]))
+			safeout(out, '''if(getvar("%s".$skater) == "checked") { ''' %(day[0]))
 			if day[0][1] == '!':
 				safeout(out, "$nights[$skater-1] = $nights[$skater-1] + 1 ;\n") 	
 			for i in range(1, len(day)):
