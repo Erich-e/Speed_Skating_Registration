@@ -48,6 +48,10 @@ def _processTable(result, table, widths):
 		result.append('</tr>')
 	result.append('</table></div>')
 
+def _cleanLine(line):
+	line = ''.join(i for i in line if ord(i) < 128)
+	return line.strip()
+
 def process(file):
 	text = open(file, 'r').read()
 	text = sanitize(text)
@@ -55,7 +59,7 @@ def process(file):
 	i = 0
 	result = ['<!-- Automatically generated HTML from wiki format-->\n']
 	while i < len(lines):
-		lines[i] = lines[i].strip()
+		lines[i] = _cleanLine(lines[i])
 		if len(lines[i]) == 0:
 			result.append('<p/><br/>')
 		elif lines[i] == '----':
@@ -65,7 +69,7 @@ def process(file):
 		elif lines[i][0] == '-':
 			s = i
 			e = i+1
-			while e < len(lines) and lines[e][0] == '-':
+			while e < len(lines) and len(lines[e]) and lines[e][0] == '-':
 				e += 1
 			if e - s > 1:
 				result.append('<ul>')
@@ -99,7 +103,7 @@ def process(file):
 	return text.replace('\n', ' ')
 
 def test():
-	text = process('print.txt')
+	text = process('/tmp/print.txt')
 	print text
 
 if __name__ == '__main__':
