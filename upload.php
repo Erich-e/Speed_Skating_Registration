@@ -6,6 +6,7 @@
 
 <?php
 $files = false;
+$confirm = false;
 function
 getvar($name)
 {
@@ -47,6 +48,7 @@ if(getvar("submit") == "submit")
 if(getvar("confirm") == "confirm")
 {
 	system("python make.py confirm");
+	$confirm = true;
 }
 ?>
 
@@ -61,8 +63,13 @@ if(getvar("confirm") == "confirm")
 	<?php 
 	if($files)
 	{ ?>
+		<form action = "upload.php" method = "post" enctype = "multipart/form-data">
 		<tr><td> To verify your generated web page go to <a href = 'test.php' target = 'blank'>test site</a> Press confirm to save changes.</td></tr>
 		<tr><td> <input type = "submit" value = "confirm" name = "confirm"> </td></tr>
+	<?php }
+	else if($confirm)
+	{ ?>
+		<tr><td> Changes Saved<td><tr>
 	<?php }
 	else
 	{ ?>
@@ -76,7 +83,7 @@ if(getvar("confirm") == "confirm")
 	<tr><td> <input type = "submit" value =  "submit" name = "submit"></td></tr>
 	<?php }
 	?>
-	<form>
+	</form>
 	</td></tr></table>
 </div>
 </body>

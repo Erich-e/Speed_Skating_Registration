@@ -150,7 +150,7 @@ def main():
 		# usage()
 		makePHP('ss.php', 'ss.csv', 'ss-amounts.csv', 'print.txt')
 	elif sys.argv[1] == 'test' and len(sys.argv) == 5:
-		''' make.py test form.csv amount.csv print.txt '''
+		#''' make.py test form.csv amount.csv print.txt '''
 		makePHP('test.php', sys.argv[2], sys.argv[3], sys.argv[4])
 	elif sys.argv[1] == 'confirm':
 		confirmed('test.php', 'index.php')
