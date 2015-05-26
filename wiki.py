@@ -80,7 +80,7 @@ def process(file):
 	while i < len(lines):
 		lines[i] = _cleanLine(lines[i])
 		if len(lines[i]) == 0:
-			result.append('<p/>')
+			result.append('<br/>')
 		elif lines[i] == '----':
 			result.append('<hr/>')
 		elif lines[i][0] == '=':
