@@ -47,7 +47,7 @@ if(getvar("submit") == "submit")
 }
 if(getvar("confirm") == "confirm")
 {
-	system("python make.py confirm, %s", getvar("Address"));
+	system("python make.py confirm ".getvar("Address"));
 	$confirm = true;
 }
 ?>
@@ -64,6 +64,7 @@ if(getvar("confirm") == "confirm")
 	if($files)
 	{ ?>
 		<form action = "upload.php" method = "post" enctype = "multipart/form-data">
+		<input type="hidden" name="Address" value=<?php printf('"%s"', getvar("Address"));?>>
 		<tr><td> To verify your generated web page go to <a href = 'test.php' target = 'blank'>test site</a> Press confirm to save changes.</td></tr>
 		<tr><td> <input type = "submit" value = "confirm" name = "confirm"> </td></tr>
 	<?php }
@@ -76,10 +77,10 @@ if(getvar("confirm") == "confirm")
 	<tr><td>In order to upload these files, please enter the password you were given.</td></tr>
 	</table> <table>
 	<form action = "upload.php" method = "post" enctype = "multipart/form-data">
+	<tr><td>Header: </td><td> <input type = "file" name = "Head"></td></tr>
 	<tr><td>Format: </td><td> <input type = "file" name = "Format"></td></tr>
 	<tr><td>Amounts: </td><td> <input type = "file" name = "Amounts"></td></tr>
 	<tr><td>Print: </td><td> <input type = "file" name = "Print"></td></tr>
-	<tr><td>Header: </td><td> <input type = "file" name = "Head"></td></tr>
 	<tr><td>Web Address: </td><td> <input type = "text" name = "Address"></td></tr>
 	<tr><td>Password: </td><td> <input type = "password" name = "password"></td></tr>
 	<tr><td> <input type = "submit" value =  "submit" name = "submit"></td></tr>

@@ -168,10 +168,14 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 	out.write("</body></html>")
 
 def confirmed(src, ext):
+	print 'Copying', src, ext
 	if os.path.exists(src):
 		curDir = os.getcwd();
-		sfile = os.path.join(curDir, f)
-		dfile = os.path.join(curDir, ext, 'index.php')
+		sfile = os.path.join(curDir, src)
+		ddir = os.path.join(curDir, ext)
+		dfile = os.path.join(ddir, 'index.php')
+		if not os.path.isdir(ddir):
+			os.mkdir(ddir)
 		if os.path.exists(dfile):
 			bkp = dfile + time.strftime('%Y%m%d-%H%M')
 			os.rename(dfile, bkp)
