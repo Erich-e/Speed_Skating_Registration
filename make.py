@@ -1,4 +1,36 @@
+#!/usr/bin/env python
+## -*- coding: utf-8
 import csv, sys, wiki, time, os, shutil
+
+HEADER = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<?php
+function
+getvar($name)
+{
+	return isset($_GET[$name])?$_GET[$name]:"";
+}
+function
+showvar($name) {
+	printf("%s", htmlspecialchars(getvar($name), ENT_QUOTES));
+}
+function group($name, $group)
+{
+	if(getvar($name) == $group)
+		printf("selected");
+}
+?>
+<head>
+	<title>Speed Skating Registration Form</title>
+	<meta charset='utf-8'>
+	<script>
+		(function() {
+			<?php if (getvar("?Print")=='print') printf("%s", 'window.print();'); ?>
+	})();
+	</script>
+</head>
+<body>
+'''
 
 def safeout(out, text):
 	out.write(wiki.sanitize(text))
@@ -6,6 +38,7 @@ def safeout(out, text):
 def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv', printfile = 'print.txt', heading = 'head.txt', driectors = 'dir'):
 	out = open(filename, 'w')
 
+	out.write(HEADER)
 	out.write(wiki.process(heading))
 	colspan = 1
 	fp = csv.reader(open(amountfile))
@@ -136,12 +169,13 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 
 def confirmed(src, ext):
 	if os.path.exists(src):
-#		bkp = dest + time.strftime('%Y%m%d-%H%M')
-#		if os.path.exists(dest):
-#			os.rename(dest, bkp)
-#		os.rename(src, dest)
 		curDir = os.getcwd();
-		copyfile(curDir+'/'+src, curDir+'/'+ext+'/index.php');
+		sfile = os.path.join(curDir, f)
+		dfile = os.path.join(curDir, ext, 'index.php')
+		if os.path.exists(dfile):
+			bkp = dfile + time.strftime('%Y%m%d-%H%M')
+			os.rename(dfile, bkp)
+		shutil.copyfile(sfile, dfile)
 
 def usage():
 	print 'Invalid usage'
@@ -151,9 +185,9 @@ def main():
 #	if len(sys.argv) < 2:
 #		# usage()
 #		makePHP('ss.php', 'ss.csv', 'ss-amounts.csv', 'print.txt', 'head.txt')
-	if sys.argv[1] == 'test' and len(sys.argv) == 5:
+	if sys.argv[1] == 'test' and len(sys.argv) == 6:
 		#''' make.py test form.csv amount.csv print.txt '''
-		makePHP('test.php', sys.argv[2], sys.argv[3], sys.argv[4])
+		makePHP('test.php', sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
 	elif sys.argv[1] == 'confirm':
 		confirmed('test.php', sys.argv[2])
 
