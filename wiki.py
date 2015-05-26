@@ -52,6 +52,25 @@ def _cleanLine(line):
 	line = ''.join(i for i in line if ord(i) < 128)
 	return line.strip()
 
+def _titleLine(line):
+	img0 = line.find('[img]')
+	img1 = line.find('[/img]')
+	img = ''
+	if img0 >= 0 and img1 > img0:
+		img = line[img0+5:img1]
+		img = '<img src="%s"/>' % img
+		l0 = line[0:img0].strip()
+		l1 = line[img1+6:].strip()
+		if l0 and l1:
+			text = '<td><h2>%s</h2></td><td>%s</td><td><h2%s</h2></td>' % (l0, img, l1)
+		elif l0:
+			text = '<td><h2>%s</h2></td><td align="right">%s</td>' % (l0, img)
+		else:
+			text = '<td>%s</td><td><h2>%s</h2></td>' % (img, l1)
+	else:
+		text = '<td><h2>%s</h2></td>' % line
+	return '<table width=100%%><tr>%s</tr><td></table>' % text
+
 def process(file):
 	text = open(file, 'r').read()
 	text = sanitize(text)
@@ -61,11 +80,11 @@ def process(file):
 	while i < len(lines):
 		lines[i] = _cleanLine(lines[i])
 		if len(lines[i]) == 0:
-			result.append('<p/><br/>')
+			result.append('<p/>')
 		elif lines[i] == '----':
 			result.append('<hr/>')
 		elif lines[i][0] == '=':
-			result.append('<h2>' + lines[i][1:] + '</h2>')
+			result.append(_titleLine(lines[i][1:]))
 		elif lines[i][0] == '-':
 			s = i
 			e = i+1

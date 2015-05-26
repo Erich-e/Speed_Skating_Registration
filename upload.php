@@ -33,7 +33,7 @@ if(getvar("submit") == "submit")
 	{
 		if(/*ftype("Format") == ".csv" &&  ftype("Amounts") == ".csv" && ftype("Print") == ".txt"*/true)
 		{
-			$cmd = sprintf("python make.py test %s %s %s ", getfile("Format"), getfile("Amounts"), getfile("Print"));
+			$cmd = sprintf("python make.py test %s %s %s %s ", getfile("Format"), getfile("Amounts"), getfile("Print"), getfile("Head"));
 			system($cmd);
 			$files = true;
 		}	
@@ -47,7 +47,7 @@ if(getvar("submit") == "submit")
 }
 if(getvar("confirm") == "confirm")
 {
-	system("python make.py confirm");
+	system("python make.py confirm, %s", getvar("Address"));
 	$confirm = true;
 }
 ?>
@@ -79,6 +79,8 @@ if(getvar("confirm") == "confirm")
 	<tr><td>Format: </td><td> <input type = "file" name = "Format"></td></tr>
 	<tr><td>Amounts: </td><td> <input type = "file" name = "Amounts"></td></tr>
 	<tr><td>Print: </td><td> <input type = "file" name = "Print"></td></tr>
+	<tr><td>Header: </td><td> <input type = "file" name = "Head"></td></tr>
+	<tr><td>Web Address: </td><td> <input type = "text" name = "Address"></td></tr>
 	<tr><td>Password: </td><td> <input type = "password" name = "password"></td></tr>
 	<tr><td> <input type = "submit" value =  "submit" name = "submit"></td></tr>
 	<?php }

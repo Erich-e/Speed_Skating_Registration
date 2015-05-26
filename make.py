@@ -1,12 +1,12 @@
-import csv, sys, wiki, time, os
+import csv, sys, wiki, time, os, shutil
 
 def safeout(out, text):
 	out.write(wiki.sanitize(text))
 
-def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv', printfile = 'print.txt'):
+def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv', printfile = 'print.txt', heading = 'head.txt', driectors = 'dir'):
 	out = open(filename, 'w')
 
-	out.write(open('head.html').read())
+	out.write(wiki.process(heading))
 	colspan = 1
 	fp = csv.reader(open(amountfile))
 	f = []
@@ -134,25 +134,27 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 	out.write(open('tail.html').read())
 	out.write("</body></html>")
 
-def confirmed(src, dest):
+def confirmed(src, ext):
 	if os.path.exists(src):
-		bkp = dest + time.strftime('%Y%m%d-%H%M')
-		if os.path.exists(dest):
-			os.rename(dest, bkp)
-		os.rename(src, dest)
+#		bkp = dest + time.strftime('%Y%m%d-%H%M')
+#		if os.path.exists(dest):
+#			os.rename(dest, bkp)
+#		os.rename(src, dest)
+		curDir = os.getcwd();
+		copyfile(curDir+'/'+src, curDir+'/'+ext+'/index.php');
 
 def usage():
 	print 'Invalid usage'
 	sys.exit(1)
 
 def main():
-	if len(sys.argv) < 2:
-		# usage()
-		makePHP('ss.php', 'ss.csv', 'ss-amounts.csv', 'print.txt')
-	elif sys.argv[1] == 'test' and len(sys.argv) == 5:
+#	if len(sys.argv) < 2:
+#		# usage()
+#		makePHP('ss.php', 'ss.csv', 'ss-amounts.csv', 'print.txt', 'head.txt')
+	if sys.argv[1] == 'test' and len(sys.argv) == 5:
 		#''' make.py test form.csv amount.csv print.txt '''
 		makePHP('test.php', sys.argv[2], sys.argv[3], sys.argv[4])
 	elif sys.argv[1] == 'confirm':
-		confirmed('test.php', 'index.php')
+		confirmed('test.php', sys.argv[2])
 
 main()
