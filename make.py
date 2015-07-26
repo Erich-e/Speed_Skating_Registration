@@ -161,9 +161,28 @@ def makePHP(filename='ss.php', formfile = 'ss.csv', amountfile = 'ss-amounts.csv
 	out.write("</table>")
 	out.write("<input type=submit value='recalculate'>")
 	out.write("<input type=submit name='?Print' value = 'print'>")
-	out.write('</form>')
+	out.write('</form>\n')
 	print_text = wiki.process(printfile)
-	out.write("<?php if(getvar('?Print')=='print') printf('%%s', '%s')?>" % print_text)
+	out.write("<?php $Data = array(")
+	for i in range (1, 5):
+		f = csv.reader(open(formfile))
+		out.write('''array( date('F j, Y, g:i a') ''')
+		for row in f:
+			out.write(", getvar('%s') " % row[i] )
+		out.write(')')
+		if i<4:
+			out.write(',')
+	out.write("""
+	);
+	if(getvar('?Print')=='print') {
+		printf('%%s', '%s');
+		$file = fopen("Database.csv", "a");
+		foreach($Data as $child) {
+			fputcsv($file, $child );
+		}
+		fclose($file);
+	}
+?>""" % print_text)
 	out.write(open('tail.html').read())
 	out.write("</body></html>")
 
