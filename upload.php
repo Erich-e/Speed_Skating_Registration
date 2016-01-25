@@ -29,7 +29,7 @@ showvar($name)
 }
 if(getvar("submit") == "submit")
 {
-	if(getvar("password") == "letmein")
+	if(getvar("password") == "********")
 	{
 		if(/*ftype("Format") == ".csv" &&  ftype("Amounts") == ".csv" && ftype("Print") == ".txt"*/true)
 		{
